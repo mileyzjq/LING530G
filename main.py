@@ -1,10 +1,12 @@
 import tkinter as tk
 
+# set window
 window = tk.Tk()
 window.title("To-do-list")
 window.configure(bg='#d3d3d3')
 lst =list()
 
+# set label
 title = tk.Label(
     text="To-do List Board",
     foreground="white",  # Set the text color to white
