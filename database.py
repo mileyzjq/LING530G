@@ -1,83 +1,82 @@
-import json
 import sqlite3
 
-conn = sqlite3.connect('rosterdb.sqlite')
+conn = sqlite3.connect('todoList.sqlite')
 cur = conn.cursor()
 
-# Do some setup
+# Create User, TodoItems and Category tables
 cur.executescript('''
 DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS Member;
-DROP TABLE IF EXISTS Course;
+DROP TABLE IF EXISTS TodoItems;
+DROP TABLE IF EXISTS Category;
 
 CREATE TABLE User (
     id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    name   TEXT UNIQUE
+    name   TEXT UNIQUE,
+    email   TEXT UNIQUE
 );
 
-CREATE TABLE Course (
+CREATE TABLE Category (
     id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    title  TEXT UNIQUE
+    category_name   TEXT UNIQUE
 );
 
-CREATE TABLE Member (
+CREATE TABLE TodoItems (
+    id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    item_name   TEXT,
+    priority_number  INTEGER,
     user_id     INTEGER,
-    course_id   INTEGER,
-    role        INTEGER,
-    PRIMARY KEY (user_id, course_id)
-)
+    category_id   INTEGER,
+    FOREIGN KEY (user_id) REFERENCES User (id),
+    FOREIGN Key (category_id) REFERENCES Category (id)
+);
 ''')
 
-fname = 'roster_data.json'
-if len(fname) < 1:
-    fname = 'roster_data_sample.json'
+# id: 1, category_name: 'study'
+# id: 2, category_name: 'life'
+# id: 3, category_name: 'work'
+category_lst = ['study', 'life', 'work']
+for category in category_lst:
+    cur.execute('''INSERT OR IGNORE INTO Category (category_name)
+        VALUES ( ? )''', ( category, ) )
 
-# [
-#   [ "Charley", "si110", 1 ],
-#   [ "Mea", "si110", 0 ],
+# id: 1, name: 'Josh', email: 'Josh@gmail.com'
+# id: 2, name: 'Bob', email: 'Bob@gmail.com'
+user_lst = [('Josh','Josh@gmail.com'), ('Bob', 'Bob@gmail.com')]
+for user in user_lst:
+    cur.execute('''INSERT OR IGNORE INTO User (name, email)
+        VALUES ( ?,? )''', ( user[0], user[1]) )
 
-str_data = open(fname).read()
-json_data = json.loads(str_data)
+# User add in item, priority number, and user id for To DO list 
+def add_item(item_name, priority_number, user_id, category_id):
+    cur.execute('''INSERT OR IGNORE INTO TodoItems (item_name, priority_number, user_id, category_id)
+        VALUES ( ?,?,?,? )''', ( item_name, priority_number, user_id, category_id) )
 
-for entry in json_data:
+# delete a todo list item from database based on item_id
+def delete_item(item_id):
+    cur.execute('''DELETE FROM TodoItems WHERE id = ?''', (item_id,))
 
-    name = entry[0]
-    title = entry[1]
-    # role is the third element of the list
-    role = entry[2]
-
-    #print((name, title))
-
-    cur.execute('''INSERT OR IGNORE INTO User (name)
-        VALUES ( ? )''', ( name, ) )
-    cur.execute('SELECT id FROM User WHERE name = ? ', (name, ))
+# get user id based on user name
+def get_user_id(user_name):
+    cur.execute('''SELECT id FROM User WHERE name = ?''', (user_name,))
     user_id = cur.fetchone()[0]
+    return user_id    
 
-    cur.execute('''INSERT OR IGNORE INTO Course (title)
-        VALUES ( ? )''', ( title, ) )
-    cur.execute('SELECT id FROM Course WHERE title = ? ', (title, ))
-    course_id = cur.fetchone()[0]
+# get category name based on category id
+def get_category_id(category_name):
+    cur.execute('''SELECT id FROM Category WHERE category_name = ?''', (category_name,))
+    category_id = cur.fetchone()[0]
+    return category_id
 
-    # insert user_id, course_id, role into Member table
-    cur.execute('''INSERT OR REPLACE INTO Member
-        (user_id, course_id, role) VALUES ( ?, ?, ?)''',
-        ( user_id, course_id, role ) )
+# sort todo list based on priority number
+def sort_by_priority():
+    cur.execute('''SELECT item_name, priority_number FROM TodoItems ORDER BY priority_number''')
+    lst = cur.fetchall()
+    return lst
 
-    conn.commit()
-
-# execute query to get all the rows from the User table
-first_output = cur.execute('''SELECT User.name, Course.title, Member.role FROM 
-    User JOIN Member JOIN Course 
-    ON User.id = Member.user_id AND Member.course_id = Course.id
-    ORDER BY User.name DESC, Course.title DESC, Member.role DESC LIMIT 2;''')
-# get query results    
-lst = first_output.fetchone()
-# print(lst)
-
-# execute query to get hex value
-second_output = cur.execute('''SELECT 'XYZZY' || hex(User.name || Course.title || Member.role ) AS X 
-FROM User JOIN Member JOIN Course ON User.id = Member.user_id AND Member.course_id = Course.id ORDER BY X LIMIT 1;''')
-# print hex value
-# print(second_output.fetchone()[0])
+# get todo list based on user id and category id
+def get_todo_list(user_id, category_id):
+    cur.execute('''SELECT item_name, priority_number FROM TodoItems WHERE user_id = ? AND category_id = ?''', (user_id, category_id))
+    lst = cur.fetchall()
+    return lst
 
 conn.commit()

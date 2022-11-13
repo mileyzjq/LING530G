@@ -1,10 +1,12 @@
 import tkinter as tk
 import database as db
 
-name = input('Enter your name: ')
+user = input('Enter your name: ')
+category = None
 # check whether the input is a valid string
 try:
-    name = str(name)
+    user = str(user)
+    user_id = db.get_user_id(user)
 except:
     print("Invalid input")
 
@@ -47,12 +49,9 @@ lst.append("java")
 
 menu.place(x=30, y=55)
 
-text = tk.Text(
-    borderwidth=5,
-    height=1,
-    width=20,
-)
-text.place(x=360, y=55)
+#Create an text input box
+entry = tk.Entry(width= 20)
+entry.place(x=360, y=55)
 
 def handle_click(event):
     lst.sort()
@@ -61,9 +60,14 @@ def handle_click(event):
     for i in range(n): 
         menu.insert(i, lst[i])
 
-button = tk.Button(text="Add", width=15, height=2)
-button.bind("<Button-1>", handle_click)
-button.place(x=360, y=100)
+def handle_add_button():
+    input = entry.get()
+    print(input)
+    menu.insert(0, input)
+    #db.add_item("life", 1, user_id, 2);
+
+add_button = tk.Button(text="Add", width=15, height=2, command=handle_add_button)
+add_button.place(x=360, y=100)
 
 button = tk.Button(text="Delete", width=15, height=2)
 button.bind("<Button-1>", handle_click)
