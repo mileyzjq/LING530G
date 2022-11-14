@@ -38,6 +38,7 @@ category_lst = ['study', 'life', 'work']
 for category in category_lst:
     cur.execute('''INSERT OR IGNORE INTO Category (category_name)
         VALUES ( ? )''', ( category, ) )
+    conn.commit()
 
 # id: 1, name: 'Josh', email: 'Josh@gmail.com'
 # id: 2, name: 'Bob', email: 'Bob@gmail.com'
@@ -45,15 +46,18 @@ user_lst = [('Josh','Josh@gmail.com'), ('Bob', 'Bob@gmail.com')]
 for user in user_lst:
     cur.execute('''INSERT OR IGNORE INTO User (name, email)
         VALUES ( ?,? )''', ( user[0], user[1]) )
+    conn.commit()
 
 # User add in item, priority number, and user id for To DO list 
 def add_item(item_name, priority_number, user_id, category_id):
     cur.execute('''INSERT OR IGNORE INTO TodoItems (item_name, priority_number, user_id, category_id)
         VALUES ( ?,?,?,? )''', ( item_name, priority_number, user_id, category_id) )
+    conn.commit()
 
 # delete a todo list item from database based on item_id
-def delete_item(item_id):
-    cur.execute('''DELETE FROM TodoItems WHERE id = ?''', (item_id,))
+def delete_item(user_id, category_name):
+    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ?''', (user_id, category_name,))
+    conn.commit()
 
 # get user id based on user name
 def get_user_id(user_name):
@@ -68,8 +72,8 @@ def get_category_id(category_name):
     return category_id
 
 # sort todo list based on priority number
-def sort_by_priority():
-    cur.execute('''SELECT item_name, priority_number FROM TodoItems ORDER BY priority_number''')
+def sort_by_priority(user_id, category_name):
+    cur.execute('''SELECT item_name, priority_number FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY priority_number''', (user_id, category_name,) )
     lst = cur.fetchall()
     return lst
 
