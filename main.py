@@ -17,6 +17,7 @@ window = tk.Tk()
 window.title("To-do-list")
 window.configure(bg='#d3d3d3')
 
+# define treeview
 columns = ('todoitems', 'priority')
 tree = ttk.Treeview(window, columns=columns, show='headings')
 # define headings
@@ -53,6 +54,7 @@ def handle_sort_button():
 def handle_category_button(category):
     global currentCategory
     currentCategory = category
+    category_label['text'] = "Current category: " + category
     for item in tree.get_children():
         tree.delete(item)
     list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
@@ -78,6 +80,9 @@ delete_button.place(x=420, y=130)
 
 sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
 sort_button.place(x=420, y=180)
+
+category_label = tk.Label(text = "Current category: "+currentCategory, foreground="blue", background="#d3d3d3")
+category_label.place(x=30, y=60)
 
 window.geometry('800x600')
 window.mainloop()

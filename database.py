@@ -5,22 +5,18 @@ cur = conn.cursor()
 
 # Create User, TodoItems and Category tables
 cur.executescript('''
-DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS TodoItems;
-DROP TABLE IF EXISTS Category;
-
-CREATE TABLE User (
+CREATE TABLE IF NOT EXISTS User (
     id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     name   TEXT UNIQUE,
     email   TEXT UNIQUE
 );
 
-CREATE TABLE Category (
+CREATE TABLE IF NOT EXISTS Category (
     id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     category_name   TEXT UNIQUE
 );
 
-CREATE TABLE TodoItems (
+CREATE TABLE IF NOT EXISTS TodoItems (
     id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     item_name   TEXT,
     priority_number  INTEGER,
