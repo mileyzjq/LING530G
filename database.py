@@ -51,8 +51,8 @@ def add_item(item_name, priority_number, user_id, category_id):
     conn.commit()
 
 # delete a todo list item from database based on item_id
-def delete_item(user_id, category_name, item_name, priority_number):
-    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ?''', (user_id, category_name, item_name, priority_number))
+def delete_item(user_id, category_id, item_name, priority_number):
+    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ?''', (user_id, category_id, item_name, priority_number))
     conn.commit()
 
 # get user id based on user name
