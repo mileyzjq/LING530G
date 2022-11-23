@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS TodoItems (
 # id: 1, category_name: 'study'
 # id: 2, category_name: 'life'
 # id: 3, category_name: 'work'
+# put pre-defined categories into database
 category_lst = ['study', 'life', 'work']
 for category in category_lst:
     cur.execute('''INSERT OR IGNORE INTO Category (category_name)
@@ -38,10 +39,17 @@ for category in category_lst:
 
 # id: 1, name: 'Josh', email: 'Josh@gmail.com'
 # id: 2, name: 'Bob', email: 'Bob@gmail.com'
+# put pre-defined users into database
 user_lst = [('Josh','Josh@gmail.com'), ('Bob', 'Bob@gmail.com')]
 for user in user_lst:
     cur.execute('''INSERT OR IGNORE INTO User (name, email)
         VALUES ( ?,? )''', ( user[0], user[1]) )
+    conn.commit()
+
+# add a new user to database
+def add_user(user_name, user_email):
+    cur.execute('''INSERT OR IGNORE INTO User (name, email)
+        VALUES ( ?,? )''', ( user_name, user_email) )
     conn.commit()
 
 # add a todo list item to database

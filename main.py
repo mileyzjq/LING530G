@@ -3,16 +3,17 @@ import database as db
 from tkinter import *
 from tkinter import ttk
 
-user = input('Enter your name: ')
+# input user name
+user = str(input('Enter your name: '))
 currentCategory = 'study'
 
-# check whether the input is a valid user
+# get user_id from database, if user does not exist, create a new user to database
 try:
-    user = str(user)
     user_id = db.get_user_id(user)
 except:
-    print("Please enter a valid user name")
-    exit()
+    print('Welcome new user!')
+    email = str(input('Enter your email: '))
+    db.add_user(user, email)
 
 
 # set window
