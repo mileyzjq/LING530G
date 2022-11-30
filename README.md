@@ -3,8 +3,8 @@
 **Aim**: Build a useful and user-friendly To-do List application
 
 Directories:
-- <code>database.py</code> all the database functionalities
-- <code>main.py</code> Main file - including Tkinter interface and operation functions
+- <code>database.py</code> includes all the database functionalities
+- <code>main.py</code> main file - including Tkinter interface and operation functions
 
 We use Python 3 to run our program. If you have any project issues, please contact us.
 ```bash
