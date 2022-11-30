@@ -6,7 +6,7 @@ Directories:
 - <code>database.py</code> all the database functionalities
 - <code>main.py</code> Main file - including Tkinter interface and operation functions
 
-We use Python 3 to run our program
+We use Python 3 to run our program. If you have any project issues, please contact us.
 ```bash
 $ python3 main.py
 ```
