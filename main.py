@@ -28,7 +28,7 @@ tree = ttk.Treeview(window, columns=columns, show='headings')
 tree.heading('todoitems', text='To-do items')
 tree.heading('priority', text='Priority')
 tree.grid(row=0, column=0, sticky='nsew')
-tree.place(x=10, y=80)
+tree.place(x=15, y=80)
 list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
 for row in list:
     tree.insert('', tk.END, values=(row[0], row[1]))

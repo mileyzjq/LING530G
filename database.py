@@ -1,3 +1,4 @@
+# adopted from roster.py in the course material
 import sqlite3
 
 conn = sqlite3.connect('todoList.sqlite')
