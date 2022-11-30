@@ -8,7 +8,7 @@ Directories:
 
 Please install Python3!
 
-We use Python3 to run our program and the command is shown below. If you have any project issues, please contact us.
+Please use the command below to run the program. If you have any project issues, please contact us.
 
 ```bash
 $ python3 main.py
