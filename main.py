@@ -119,8 +119,5 @@ delete_button.place(x=450, y=160)
 sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
 sort_button.place(x=450, y=210)
 
-# category_label = tk.Label(text = "Current category: "+currentCategory, foreground="blue", background="#d3d3d3")
-# category_label.place(x=30, y=60)
-
 window.geometry('720x500')
 window.mainloop()
