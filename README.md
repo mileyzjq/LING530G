@@ -8,7 +8,7 @@ Files:
 
 Please install Python3!
 
-Please use the command below to run the program. If you have any project issues, please contact us.
+Please use the command below to run the program. If you have any questions, please contact us.
 
 ```bash
 $ python3 main.py
