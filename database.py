@@ -1,8 +1,11 @@
 # adopted from roster.py in the course material
 import sqlite3
 
-conn = sqlite3.connect('todoList.sqlite')
-cur = conn.cursor()
+try:
+    conn = sqlite3.connect('todoList.sqlite')
+    cur = conn.cursor()
+except:
+    print('Error: fail to connect database')
 
 # Create User, TodoItems and Category tables
 cur.executescript('''
