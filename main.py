@@ -21,6 +21,10 @@ window = tk.Tk()
 window.title("To-do-list")
 window.configure(bg='#d3d3d3')
 
+# display greeting message, like "Hi, Josh!"
+greeting = tk.Label(text = "Hi, " + user + "!", foreground="black", background="#d3d3d3")
+greeting.place(x=5, y=0)
+
 # define treeview, all the todo list items will be shown in the treeview based on category selected
 columns = ('todoitems', 'priority')
 tree = ttk.Treeview(window, columns=columns, show='headings')
