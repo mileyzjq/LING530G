@@ -15,7 +15,6 @@ except:
     email = str(input('Enter your email: '))
     db.add_user(user, email)
 
-
 # set window
 window = tk.Tk()
 window.title("To-do-list")
