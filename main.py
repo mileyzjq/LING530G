@@ -5,6 +5,7 @@ from tkinter import ttk
 
 # input user name
 user = str(input('Enter your name: '))
+# set current category with initial value 'study'
 currentCategory = 'study'
 
 # get user_id from database, if user does not exist, create a new user to database
@@ -14,6 +15,7 @@ except:
     print('Welcome new user!')
     email = str(input('Enter your email: '))
     db.add_user(user, email)
+
 
 # set window
 window = tk.Tk()
