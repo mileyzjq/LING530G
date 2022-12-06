@@ -8,13 +8,14 @@ user = str(input('Enter your name: '))
 # set current category with initial value 'study'
 currentCategory = 'study'
 
-# get user_id from database, if user does not exist, create a new user to database
+# get user_id from database, if user does not exist, create a new user to the database
 try:
     user_id = db.get_user_id(user)
 except:
     print('Welcome new user!')
     email = str(input('Enter your email: '))
     db.add_user(user, email)
+    print('User created successfully!')
 
 
 # set window
