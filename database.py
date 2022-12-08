@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS TodoItems (
     priority_number  INTEGER,
     user_id     INTEGER,
     category_id   INTEGER,
+    due_date  TEXT,
     FOREIGN KEY (user_id) REFERENCES User (id),
     FOREIGN Key (category_id) REFERENCES Category (id)
 );
@@ -57,14 +58,14 @@ def add_user(user_name, user_email):
     conn.commit()
 
 # add a todo list item to database
-def add_item(item_name, priority_number, user_id, category_id):
-    cur.execute('''INSERT OR IGNORE INTO TodoItems (item_name, priority_number, user_id, category_id)
-        VALUES ( ?,?,?,? )''', ( item_name, priority_number, user_id, category_id) )
+def add_item(item_name, priority_number, due_date, user_id, category_id):
+    cur.execute('''INSERT OR IGNORE INTO TodoItems (item_name, priority_number, due_date, user_id, category_id)
+        VALUES ( ?,?,?,?,? )''', ( item_name, priority_number, due_date, user_id, category_id) )
     conn.commit()
 
 # delete a todo list item from database based on item_id
-def delete_item(user_id, category_id, item_name, priority_number):
-    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ?''', (user_id, category_id, item_name, priority_number))
+def delete_item(user_id, category_id, item_name, priority_number, due_date):
+    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ?''', (user_id, category_id, item_name, priority_number, due_date))
     conn.commit()
 
 # get user id based on user name
@@ -80,14 +81,14 @@ def get_category_id(category_name):
     return category_id
 
 # sort todo list based on priority number
-def sort_by_priority(user_id, category_name):
-    cur.execute('''SELECT item_name, priority_number FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY priority_number DESC''', (user_id, category_name,) )
+def sort_by_due_date_and_priority(user_id, category_name):
+    cur.execute('''SELECT item_name, priority_number, due_date FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY due_date DESC, priority_number''', (user_id, category_name,) )
     lst = cur.fetchall()
     return lst
 
 # get todo list based on user id and category id
 def get_todo_list(user_id, category_id):
-    cur.execute('''SELECT item_name, priority_number FROM TodoItems WHERE user_id = ? AND category_id = ?''', (user_id, category_id))
+    cur.execute('''SELECT item_name, priority_number, due_date FROM TodoItems WHERE user_id = ? AND category_id = ?''', (user_id, category_id))
     lst = cur.fetchall()
     return lst
 
