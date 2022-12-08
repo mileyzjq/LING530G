@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS TodoItems (
     id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     item_name   TEXT,
     priority_number  INTEGER,
+    due_date  DATE,
     user_id     INTEGER,
     category_id   INTEGER,
-    due_date  TEXT,
     FOREIGN KEY (user_id) REFERENCES User (id),
     FOREIGN Key (category_id) REFERENCES Category (id)
 );

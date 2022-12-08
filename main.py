@@ -137,15 +137,15 @@ life_button.place(x=170, y=35)
 
 # add button settings
 add_button = tk.Button(text="Add", width=15, height=2, command=handle_add_button)
-add_button.place(x=650, y=110)
+add_button.place(x=650, y=120)
 
 # delete button settings
 delete_button = tk.Button(text="Delete", width=15, height=2, command=handle_delete_button)
-delete_button.place(x=650, y=160)
+delete_button.place(x=650, y=170)
 
 # sort button settings
 sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
-sort_button.place(x=650, y=210)
+sort_button.place(x=650, y=220)
 
 window.geometry('960x500')
 window.mainloop()
