@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS TodoItems (
     id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     item_name   TEXT,
     priority_number  INTEGER,
-    due_date  DATE,
+    due_date  TEXT,
     user_id     INTEGER,
     category_id   INTEGER,
     FOREIGN KEY (user_id) REFERENCES User (id),
@@ -82,7 +82,7 @@ def get_category_id(category_name):
 
 # sort todo list based on priority number
 def sort_by_due_date_and_priority(user_id, category_name):
-    cur.execute('''SELECT item_name, priority_number, due_date FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY due_date DESC, priority_number''', (user_id, category_name,) )
+    cur.execute('''SELECT item_name, priority_number, due_date FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY date(due_date) ASC, priority_number''', (user_id, category_name,) )
     lst = cur.fetchall()
     return lst
 

@@ -19,7 +19,7 @@ except:
     print('User created successfully!')
 
 
-# set window
+# set window configuration
 window = tk.Tk()
 window.title("To-do-list")
 window.configure(bg='#d3d3d3')
@@ -38,17 +38,24 @@ tree.heading('due_date', text='Due date')
 tree.grid(row=0, column=0, sticky='nsew')
 tree.place(x=15, y=80)
 tree.tag_configure('overdue', background='red')
+
+# get current date
 today = datetime.today()
 today_date = today.strftime("%Y-%m-%d")
-list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
-for row in list:
-    tree.insert('', tk.END, values=(row[0], row[1], row[2]))
+
+# if task is overdue, change the background color to red
 def add_overdue_tag():
     listOfEntriesInTreeView=tree.get_children()
     for each in listOfEntriesInTreeView:
         due_date = datetime.strptime(tree.item(each)['values'][2], "%Y-%m-%d")
         if(due_date < today):
             tree.item(each, tags='overdue')
+
+# display items in treeview
+list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
+for row in list:
+    tree.insert('', tk.END, values=(row[0], row[1], row[2]))
+# add tag to overdue items
 add_overdue_tag()
 
 # Create new todo item label and input box
@@ -60,14 +67,14 @@ toDoItemEntry.place(x=650, y=80)
 # Create priority number label and input box
 priority_number = tk.Label(text = "Priority", foreground="black", background="#d3d3d3")
 priority_number.place(x=780, y=50)
-priorityEntry = tk.Entry(width=6)
+priorityEntry = tk.Entry(width=5)
 priorityEntry.place(x=780, y=80)
 
 # Create due date label and input box
 due_date = tk.Label(text = "Due date", foreground="black", background="#d3d3d3")
-due_date.place(x=860, y=50)
-due_dateEntry = tk.Entry(width=6)
-due_dateEntry.place(x=860, y=80)
+due_date.place(x=850, y=50)
+due_dateEntry = tk.Entry(width=9)
+due_dateEntry.place(x=850, y=80)
 
 # when click add button, add new item to the tree
 def handle_add_button():
