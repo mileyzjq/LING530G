@@ -182,5 +182,9 @@ delete_button.place(x=650, y=220)
 sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
 sort_button.place(x=650, y=270)
 
+# edit button settings
+edit_button = tk.Button(text="Edit", width=15, height=2, command=handle_edit_button)
+edit_button.place(x=650, y=260)
+
 window.geometry('960x500')
 window.mainloop()
