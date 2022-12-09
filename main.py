@@ -98,6 +98,7 @@ def handle_add_button():
     db.add_item(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
     add_overdue_tag()
 
+# when click edit button, edit selected item
 def handle_edit_button():
     cur_item = tree.focus()
     item_name = tree.item(cur_item)['values'][0]
