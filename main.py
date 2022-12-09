@@ -3,18 +3,34 @@ import tkinter as tk
 import database as db
 from tkinter import *
 from tkinter import ttk
+import re
 
 # input user name
 user = str(input('Enter your name: '))
 # set current category with initial value 'study'
 currentCategory = 'study'
 
+# user enter email address and system validate email address
+def get_email():
+    # input and check email address. if email address is invalid, ask user to enter again
+    # three attempts in total
+    for i in range(3):
+        email = str(input('Enter your email: '))
+        # validate email address
+        if len(email) > 7:
+            if re.match("^.+@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
+                return email 
+        else:
+            print('Invalid email address, please enter try again!')
+    print('Too many attempts, exit!')
+    exit()
+
 # get user_id from database, if user does not exist, create a new user to the database
 try:
     user_id = db.get_user_id(user)
 except:
     print('Welcome new user!')
-    email = str(input('Enter your email: '))
+    email = get_email()
     db.add_user(user, email)
     print('User created successfully!')
 
@@ -82,6 +98,14 @@ def handle_add_button():
     db.add_item(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
     add_overdue_tag()
 
+def handle_edit_button():
+    cur_item = tree.focus()
+    item_name = tree.item(cur_item)['values'][0]
+    item_priority = tree.item(cur_item)['values'][1]
+    due_date = tree.item(cur_item)['values'][2]
+    tree.item(cur_item, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get()))
+    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get())
+
 # when click delete button, delete selected item
 def handle_delete_button():
     cur_item = tree.focus()
@@ -146,13 +170,17 @@ life_button.place(x=170, y=35)
 add_button = tk.Button(text="Add", width=15, height=2, command=handle_add_button)
 add_button.place(x=650, y=120)
 
+# edit button settings
+edit_button = tk.Button(text="Edit", width=15, height=2, command=handle_edit_button)
+edit_button.place(x=650, y=170)
+
 # delete button settings
 delete_button = tk.Button(text="Delete", width=15, height=2, command=handle_delete_button)
-delete_button.place(x=650, y=170)
+delete_button.place(x=650, y=220)
 
 # sort button settings
 sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
-sort_button.place(x=650, y=220)
+sort_button.place(x=650, y=270)
 
 window.geometry('960x500')
 window.mainloop()
