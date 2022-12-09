@@ -75,6 +75,14 @@ def handle_add_button():
     db.add_item(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
     add_overdue_tag()
 
+def handle_edit_button():
+    cur_item = tree.focus()
+    item_name = tree.item(cur_item)['values'][0]
+    item_priority = tree.item(cur_item)['values'][1]
+    due_date = tree.item(cur_item)['values'][2]
+    tree.item(cur_item, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get()))
+    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get())
+
 # when click delete button, delete selected item
 def handle_delete_button():
     cur_item = tree.focus()
@@ -146,6 +154,10 @@ delete_button.place(x=650, y=160)
 # sort button settings
 sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
 sort_button.place(x=650, y=210)
+
+# edit button settings
+edit_button = tk.Button(text="Edit", width=15, height=2, command=handle_edit_button)
+edit_button.place(x=650, y=260)
 
 window.geometry('960x500')
 window.mainloop()
