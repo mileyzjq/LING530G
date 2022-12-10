@@ -45,12 +45,17 @@ greeting = tk.Label(text = "Hi, " + user + "!", foreground="black", background="
 greeting.place(x=5, y=0)
 
 # define treeview, all the todo list items will be shown in the treeview based on category selected
-columns = ('todoitems', 'priority', 'due_date')
+columns = ('todoitems', 'priority', 'due_date', 'tag')
 tree = ttk.Treeview(window, columns=columns, show='headings')
 # define headings
 tree.heading('todoitems', text='To-do items')
+tree.column('priority', width=180)
 tree.heading('priority', text='Priority')
+tree.column('priority', width=120)
 tree.heading('due_date', text='Due date')
+tree.column('due_date', width=120)
+tree.heading('tag', text='Tag')
+tree.column('tag', width=120)
 tree.grid(row=0, column=0, sticky='nsew')
 tree.place(x=15, y=80)
 tree.tag_configure('overdue', background='red')
@@ -70,32 +75,38 @@ def add_overdue_tag():
 # display items in treeview
 list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
 for row in list:
-    tree.insert('', tk.END, values=(row[0], row[1], row[2]))
+    tree.insert('', tk.END, values=(row[0], row[1], row[2], row[3]))
 # add tag to overdue items
 add_overdue_tag()
 
 # Create new todo item label and input box
 new_todo_item = tk.Label(text = "New To-do Item", foreground="black", background="#d3d3d3")
-new_todo_item.place(x=650, y=50)
+new_todo_item.place(x=600, y=50)
 toDoItemEntry = tk.Entry(width=12)
-toDoItemEntry.place(x=650, y=80)
+toDoItemEntry.place(x=600, y=80)
 
 # Create priority number label and input box
 priority_number = tk.Label(text = "Priority", foreground="black", background="#d3d3d3")
-priority_number.place(x=780, y=50)
+priority_number.place(x=726, y=50)
 priorityEntry = tk.Entry(width=5)
-priorityEntry.place(x=780, y=80)
+priorityEntry.place(x=726, y=80)
 
 # Create due date label and input box
 due_date = tk.Label(text = "Due date", foreground="black", background="#d3d3d3")
-due_date.place(x=850, y=50)
+due_date.place(x=790, y=50)
 due_dateEntry = tk.Entry(width=9)
-due_dateEntry.place(x=850, y=80)
+due_dateEntry.place(x=790, y=80)
+
+# Create due date label and input box
+tag = tk.Label(text = "Tag", foreground="black", background="#d3d3d3")
+tag.place(x=890, y=50)
+tagEntry = tk.Entry(width=8)
+tagEntry.place(x=890, y=80)
 
 # when click add button, add new item to the tree
 def handle_add_button():
-    tree.insert('', tk.END, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get()))
-    db.add_item(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
+    tree.insert('', tk.END, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get()))
+    db.add_item(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
     add_overdue_tag()
 
 # when click edit button, edit selected item
@@ -104,8 +115,9 @@ def handle_edit_button():
     item_name = tree.item(cur_item)['values'][0]
     item_priority = tree.item(cur_item)['values'][1]
     due_date = tree.item(cur_item)['values'][2]
-    tree.item(cur_item, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get()))
-    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get())
+    tag = tree.item(cur_item)['values'][3]
+    tree.item(cur_item, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get()))
+    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get())
 
 # when click delete button, delete selected item
 def handle_delete_button():
@@ -124,7 +136,7 @@ def handle_sort_button():
     # sort items in descending order and display items in treeview
     list = db.sort_by_due_date_and_priority(db.get_user_id(user), db.get_category_id(currentCategory))
     for row in list:
-        tree.insert('', tk.END, values=(row[0], row[1], row[2]))
+        tree.insert('', tk.END, values=(row[0], row[1], row[2], row[3]))
     add_overdue_tag()
     
 # change button color, when category is selected
@@ -152,7 +164,7 @@ def handle_category_button(category):
     # display items in treeview
     list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
     for row in list:
-        tree.insert('', tk.END, values=(row[0], row[1], row[2]))
+        tree.insert('', tk.END, values=(row[0], row[1], row[2], row[3]))
     add_overdue_tag()
 
 # study button settings
@@ -168,24 +180,20 @@ life_button = tk.Button(text="Life", width=5, command=lambda: handle_category_bu
 life_button.place(x=170, y=35)
 
 # add button settings
-add_button = tk.Button(text="Add", width=15, height=2, command=handle_add_button)
-add_button.place(x=650, y=120)
+add_button = tk.Button(text="Add", width=18, height=2, command=handle_add_button)
+add_button.place(x=600, y=120)
 
 # edit button settings
-edit_button = tk.Button(text="Edit", width=15, height=2, command=handle_edit_button)
-edit_button.place(x=650, y=170)
+edit_button = tk.Button(text="Edit", width=18, height=2, command=handle_edit_button)
+edit_button.place(x=600, y=170)
 
 # delete button settings
-delete_button = tk.Button(text="Delete", width=15, height=2, command=handle_delete_button)
-delete_button.place(x=650, y=220)
+delete_button = tk.Button(text="Delete", width=18, height=2, command=handle_delete_button)
+delete_button.place(x=600, y=220)
 
 # sort button settings
-sort_button = tk.Button(text="Sort", width=15, height=2, command=handle_sort_button)
-sort_button.place(x=650, y=270)
+sort_button = tk.Button(text="Sort", width=18, height=2, command=handle_sort_button)
+sort_button.place(x=600, y=270)
 
-# edit button settings
-edit_button = tk.Button(text="Edit", width=15, height=2, command=handle_edit_button)
-edit_button.place(x=650, y=260)
-
-window.geometry('960x500')
+window.geometry('1000x500')
 window.mainloop()
