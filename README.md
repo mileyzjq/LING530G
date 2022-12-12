@@ -14,7 +14,7 @@ Please use the command below to run the program. If you have any questions, plea
 $ python3 main.py
 ```
 
-Team: Group 2
-Jiaqi Zhang (63174551)
-Justina Bruns (70581079)
-Yang Du (78265148)
+Group 2 <br/>
+Jiaqi Zhang (63174551) <br/>
+Justina Bruns (70581079)  <br/>
+Yang Du (78265148)  <br/>
