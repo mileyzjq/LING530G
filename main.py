@@ -82,31 +82,31 @@ add_overdue_tag()
 # Create new todo item label and input box
 new_todo_item = tk.Label(text = "New To-do Item", foreground="black", background="#d3d3d3")
 new_todo_item.place(x=600, y=50)
-toDoItemEntry = tk.Entry(width=12)
-toDoItemEntry.place(x=600, y=80)
+todo_item_entry = tk.Entry(width=12)
+todo_item_entry.place(x=600, y=80)
 
 # Create priority number label and input box
-priority_number = tk.Label(text = "Priority", foreground="black", background="#d3d3d3")
-priority_number.place(x=726, y=50)
-priorityEntry = tk.Entry(width=5)
-priorityEntry.place(x=726, y=80)
+priority = tk.Label(text = "Priority", foreground="black", background="#d3d3d3")
+priority.place(x=726, y=50)
+priority_entry = tk.Entry(width=5)
+priority_entry.place(x=726, y=80)
 
 # Create due date label and input box
 due_date = tk.Label(text = "Due date", foreground="black", background="#d3d3d3")
 due_date.place(x=790, y=50)
-due_dateEntry = tk.Entry(width=9)
-due_dateEntry.place(x=790, y=80)
+due_date_entry = tk.Entry(width=9)
+due_date_entry.place(x=790, y=80)
 
 # Create due date label and input box
 tag = tk.Label(text = "Tag", foreground="black", background="#d3d3d3")
 tag.place(x=890, y=50)
-tagEntry = tk.Entry(width=8)
-tagEntry.place(x=890, y=80)
+tag_entry = tk.Entry(width=8)
+tag_entry.place(x=890, y=80)
 
 # when click add button, add new item to the tree
 def handle_add_button():
-    tree.insert('', tk.END, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get()))
-    db.add_item(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
+    tree.insert('', tk.END, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
+    db.add_item(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
     add_overdue_tag()
 
 # when click edit button, edit selected item
@@ -116,8 +116,8 @@ def handle_edit_button():
     item_priority = tree.item(cur_item)['values'][1]
     due_date = tree.item(cur_item)['values'][2]
     tag = tree.item(cur_item)['values'][3]
-    tree.item(cur_item, values=(toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get()))
-    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, toDoItemEntry.get(), priorityEntry.get(), due_dateEntry.get(), tagEntry.get())
+    tree.item(cur_item, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
+    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get())
 
 # when click delete button, delete selected item
 def handle_delete_button():
