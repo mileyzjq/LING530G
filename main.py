@@ -116,8 +116,8 @@ def handle_edit_button():
     item_priority = tree.item(cur_item)['values'][1]
     due_date = tree.item(cur_item)['values'][2]
     tag = tree.item(cur_item)['values'][3]
+    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, tag, todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get())
     tree.item(cur_item, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
-    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get())
 
 # when click delete button, delete selected item
 def handle_delete_button():
@@ -125,8 +125,9 @@ def handle_delete_button():
     item_name = tree.item(cur_item)['values'][0]
     item_priority = tree.item(cur_item)['values'][1]
     due_date = tree.item(cur_item)['values'][2]
+    tag = tree.item(cur_item)['values'][3]
+    db.delete_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, tag)
     tree.delete(tree.selection())
-    db.delete_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date)
 
 # when click sort button, sort items based on priority number in descending order
 def handle_sort_button():

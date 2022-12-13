@@ -65,14 +65,14 @@ def add_item(item_name, priority_number, due_date, tag, user_id, category_id):
     conn.commit()
 
 # update a todo list item in database
-def update_item(user_id, category_id, item_name, priority_number, due_date, tag, new_item_name, new_priority_number, new_due_date):
-    cur.execute('''UPDATE TodoItems SET item_name = ?, priority_number = ?, due_date = ?, tag = ? WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ?''',
-                (new_item_name, new_priority_number, new_due_date, user_id, category_id, item_name, priority_number, due_date, tag))
+def update_item(user_id, category_id, item_name, priority_number, due_date, tag, new_item_name, new_priority_number, new_due_date, new_tag):
+    cur.execute('''UPDATE TodoItems SET item_name = ?, priority_number = ?, due_date = ?, tag = ? WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ? AND tag = ?''',
+                (new_item_name, new_priority_number, new_due_date, new_tag, user_id, category_id, item_name, priority_number, due_date, tag))
     conn.commit()
 
 # delete a todo list item from database based on item_id
-def delete_item(user_id, category_id, item_name, priority_number, due_date):
-    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ?''', (user_id, category_id, item_name, priority_number, due_date))
+def delete_item(user_id, category_id, item_name, priority_number, due_date, tag):
+    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ? AND tag = ?''', (user_id, category_id, item_name, priority_number, due_date, tag))
     conn.commit()
 
 # get user id based on user name
