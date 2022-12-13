@@ -4,7 +4,7 @@
 
 Files:
 - <code>main.py</code> main file - including Tkinter interface and operation functions
-- <code>database.py</code> database file - including all the database functionalities
+- <code>database.py</code> database file - including all the database functionalities 
 
 Please install Python3!
 
