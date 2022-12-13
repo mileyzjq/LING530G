@@ -14,6 +14,9 @@ Please use the command below to run the program. If you have any questions, plea
 $ python3 main.py
 ```
 
+Video Link: https://youtu.be/d8LsHifUJR0
+Github Link: https://github.com/mileyzjq/LING530G
+
 Group 2 <br/>
 Jiaqi Zhang (63174551) <br/>
 Justina Bruns (70581079)  <br/>
