@@ -118,7 +118,8 @@ def handle_edit_button():
     tag = tree.item(cur_item)['values'][3]
     db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, tag, todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get())
     tree.item(cur_item, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
-
+    add_overdue_tag()
+    
 # when click delete button, delete selected item
 def handle_delete_button():
     cur_item = tree.focus()
