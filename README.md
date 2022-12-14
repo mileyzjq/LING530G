@@ -15,22 +15,23 @@ A user can delete a selected item.
 ### Database
 We mainly created three database tables – User, TodoItems, and Category. The User, TodoItems and Category store user, item, and category information separately. TodoItems tables have two foreign keys ‘user_id’ and ‘category_id’ points to primary keys in the User and Category tables separately. The relationship between the User and TodoItems table is ‘one-to-many’ similar to the relationship between Category and TodoItems table. ‘one-to-many’ relationship can be seen between User and TodoItems table and Category and TodoItems.
 
-**Files**:
+### Files
 - <code>main.py</code> main file - including Tkinter interface and operation functions
 - <code>database.py</code> database file - including all the database functionalities 
 (adopted from roster.py in the course material)
 
+### Compile
 Please install Python3!
-
 Please use the command below to run the program. If you have any questions, please contact us.
-
 ```bash
 $ python3 main.py
 ```
 
+### Links
 Demo Link: https://youtu.be/vGnu_Q-bdW8 <br/>
 Github Link: https://github.com/mileyzjq/LING530G <br/>
 
+### Group Memners
 Group 2 <br/>
 Jiaqi Zhang (63174551) <br/>
 Justina Bruns (70581079)  <br/>
