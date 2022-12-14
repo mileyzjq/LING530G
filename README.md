@@ -15,7 +15,7 @@ Please use the command below to run the program. If you have any questions, plea
 $ python3 main.py
 ```
 
-Demo Link: https://youtu.be/d8LsHifUJR0 <br/>
+Demo Link: https://youtu.be/vGnu_Q-bdW8 <br/>
 Github Link: https://github.com/mileyzjq/LING530G <br/>
 
 Group 2 <br/>
