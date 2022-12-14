@@ -75,7 +75,7 @@ def add_overdue_tag():
 # display items in treeview
 list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
 for row in list:
-    tree.insert('', tk.END, values=(row[0], row[1], row[2], row[3]))
+    tree.insert('', tk.END, iid=row[0], values=(row[1], row[2], row[3], row[4]))
 # add tag to overdue items
 add_overdue_tag()
 
@@ -105,29 +105,21 @@ tag_entry.place(x=890, y=80)
 
 # when click add button, add new item to the tree
 def handle_add_button():
-    tree.insert('', tk.END, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
-    db.add_item(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
+    item_id = db.add_item(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get(), db.get_user_id(user), db.get_category_id(currentCategory))
+    tree.insert('', tk.END, iid=item_id, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
     add_overdue_tag()
 
 # when click edit button, edit selected item
 def handle_edit_button():
-    cur_item = tree.focus()
-    item_name = tree.item(cur_item)['values'][0]
-    item_priority = tree.item(cur_item)['values'][1]
-    due_date = tree.item(cur_item)['values'][2]
-    tag = tree.item(cur_item)['values'][3]
-    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, tag, todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get())
-    tree.item(cur_item, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
+    item_id = tree.focus()
+    db.update_item(db.get_user_id(user), db.get_category_id(currentCategory), item_id, todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get())
+    tree.item(item_id, values=(todo_item_entry.get(), priority_entry.get(), due_date_entry.get(), tag_entry.get()))
     add_overdue_tag()
     
 # when click delete button, delete selected item
 def handle_delete_button():
-    cur_item = tree.focus()
-    item_name = tree.item(cur_item)['values'][0]
-    item_priority = tree.item(cur_item)['values'][1]
-    due_date = tree.item(cur_item)['values'][2]
-    tag = tree.item(cur_item)['values'][3]
-    db.delete_item(db.get_user_id(user), db.get_category_id(currentCategory), item_name, item_priority, due_date, tag)
+    item_id = tree.focus()
+    db.delete_item(db.get_user_id(user), db.get_category_id(currentCategory), item_id)
     tree.delete(tree.selection())
 
 # when click sort button, sort items based on priority number in descending order
@@ -138,7 +130,7 @@ def handle_sort_button():
     # sort items in descending order and display items in treeview
     list = db.sort_by_due_date_and_priority(db.get_user_id(user), db.get_category_id(currentCategory))
     for row in list:
-        tree.insert('', tk.END, values=(row[0], row[1], row[2], row[3]))
+        tree.insert('', tk.END, iid=row[0], values=(row[1], row[2], row[3], row[4]))
     add_overdue_tag()
     
 # change button color, when category is selected
@@ -166,7 +158,7 @@ def handle_category_button(category):
     # display items in treeview
     list = db.get_todo_list(db.get_user_id(user), db.get_category_id(currentCategory))
     for row in list:
-        tree.insert('', tk.END, values=(row[0], row[1], row[2], row[3]))
+        tree.insert('', tk.END, iid=row[0], values=(row[1], row[2], row[3], row[4]))
     add_overdue_tag()
 
 # study button settings

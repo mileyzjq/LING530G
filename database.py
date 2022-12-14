@@ -58,21 +58,22 @@ def add_user(user_name, user_email):
         VALUES ( ?,? )''', ( user_name, user_email) )
     conn.commit()
 
-# add a todo list item to database
+# add a todo list item to database, and return the item id
 def add_item(item_name, priority_number, due_date, tag, user_id, category_id):
     cur.execute('''INSERT OR IGNORE INTO TodoItems (item_name, priority_number, due_date, tag, user_id, category_id)
         VALUES ( ?,?,?,?,?,? )''', (item_name, priority_number, due_date, tag, user_id, category_id) )
     conn.commit()
+    return cur.lastrowid
 
 # update a todo list item in database
-def update_item(user_id, category_id, item_name, priority_number, due_date, tag, new_item_name, new_priority_number, new_due_date, new_tag):
-    cur.execute('''UPDATE TodoItems SET item_name = ?, priority_number = ?, due_date = ?, tag = ? WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ? AND tag = ?''',
-                (new_item_name, new_priority_number, new_due_date, new_tag, user_id, category_id, item_name, priority_number, due_date, tag))
+def update_item(user_id, category_id, item_id, new_item_name, new_priority_number, new_due_date, new_tag):
+    cur.execute('''UPDATE TodoItems SET item_name = ?, priority_number = ?, due_date = ?, tag = ? WHERE user_id = ? AND category_id = ? AND id = ?''',
+                (new_item_name, new_priority_number, new_due_date, new_tag, user_id, category_id, item_id))
     conn.commit()
 
 # delete a todo list item from database based on item_id
-def delete_item(user_id, category_id, item_name, priority_number, due_date, tag):
-    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND item_name = ? AND priority_number = ? AND due_date = ? AND tag = ?''', (user_id, category_id, item_name, priority_number, due_date, tag))
+def delete_item(user_id, category_id, item_id):
+    cur.execute('''DELETE FROM TodoItems WHERE user_id = ? AND category_id = ? AND id = ?''', (user_id, category_id, item_id))
     conn.commit()
 
 # get user id based on user name
@@ -89,13 +90,13 @@ def get_category_id(category_name):
 
 # sort todo list based on priority number
 def sort_by_due_date_and_priority(user_id, category_name):
-    cur.execute('''SELECT item_name, priority_number, due_date, tag FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY due_date ASC, priority_number DESC''', (user_id, category_name,) )
+    cur.execute('''SELECT id, item_name, priority_number, due_date, tag FROM TodoItems WHERE user_id = ? AND category_id = ? ORDER BY due_date ASC, priority_number DESC''', (user_id, category_name,) )
     lst = cur.fetchall()
     return lst
 
 # get todo list based on user id and category id
 def get_todo_list(user_id, category_id):
-    cur.execute('''SELECT item_name, priority_number, due_date, tag FROM TodoItems WHERE user_id = ? AND category_id = ?''', (user_id, category_id))
+    cur.execute('''SELECT id, item_name, priority_number, due_date, tag FROM TodoItems WHERE user_id = ? AND category_id = ?''', (user_id, category_id))
     lst = cur.fetchall()
     return lst
 
