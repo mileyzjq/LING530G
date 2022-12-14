@@ -20,8 +20,7 @@ Python, Tkinter, Database(SQLite)
 
 ## Files
 - <code>main.py</code> main file - including Tkinter interface and operation functions
-- <code>database.py</code> database file - including all the database functionalities 
-(adopted from roster.py in the course material)
+- <code>database.py</code> database file - including all the database functionalities (adopted from roster.py in the course material)
 
 ## Compile
 Please install Python3! <br/>
