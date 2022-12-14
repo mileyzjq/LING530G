@@ -13,7 +13,7 @@ Inspired by some popular to-do list applications like Trello and Google Tasks, w
 - A tag is added to further clarify the status of the to-do item within the same category, i.e. done, working-on, and to-do status.
 
 ## Database
-We mainly created three database tables – User, TodoItems, and Category. The User, TodoItems, and Category tables store user, item, and category information separately. TodoItems tables have two foreign keys ‘user_id’ and ‘category_id’ points to primary keys in the User and Category tables separately. The relationship between the User and TodoItems table is ‘one-to-many’ similar to the relationship between Category and TodoItems table. ‘one-to-many’ relationship can be seen between User and TodoItems table and Category and TodoItems.
+We mainly created three database tables – User, TodoItems, and Category. The User, TodoItems, and Category tables store user, item, and category information separately. TodoItems tables have two foreign keys ‘user_id’ and ‘category_id’ points to primary keys in the User and Category tables separately. The relationship between the User and TodoItems table is ‘one-to-many’ the same as the relationship between Category and TodoItems table. 
 
 ## Related Technology
 Python, Tkinter, Database(SQLite)
